@@ -1,0 +1,16 @@
+.DS_Store
+**/.idea/*
+**/target/*
+
+.idea
+*.iml
+*.class
+*.jar
+.settings
+**/.settings/*
+.project
+.classpath
+
+*.epoch
+*.lck
+*.log
