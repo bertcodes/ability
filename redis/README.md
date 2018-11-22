@@ -16,7 +16,7 @@ lock.unlock();
 
 二、底层原理
 
-1) 加锁机制
+1、 加锁机制
 ![image](https://github.com/bertcodes/ability/blob/master/redis/redissonLockFlowChart.png)
 上面那张图，现在某个客户端要加锁。如果该客户端面对的是一个redis cluster集群，他首先会根据hash节点选择一台机器。注意
 
@@ -67,7 +67,7 @@ hset myLock
 
 接着会执行“pexpire lock 30000”命令，设置myLock这个锁key的生存时间是30秒。
 
-2) 锁互斥机制
+2、 锁互斥机制
 
 那么在这个时候，如果客户端2来尝试加锁，执行了同样的一段lua脚本，会怎样？
 
@@ -79,13 +79,13 @@ hset myLock
 
 此时客户端2会进入一个while循环，不停的尝试加锁。
 
-3) watch dog自动延迟机制
+3、 watch dog自动延迟机制
 
 客户端1加锁的锁key默认生存时间才30秒，如果超过了30秒，客户端1还想一直持有这把锁，怎么办？
 
 简单！只要客户端1一旦加锁成功，就会启动一个watch dog看门狗，他是一个后台线程，会每隔10秒检查一下，如果客户端1还持有锁key，那么就会不断的延长锁key的生存时间。
 
-4）可重入加锁机制
+4、可重入加锁机制
 
 那如果客户端1都已经持有了这把锁了，结果可重入的加锁会怎么样呢？
 
@@ -115,7 +115,7 @@ incrby lock
 
 ![image](https://github.com/bertcodes/ability/blob/master/redis/lock_value_3td.png)
 
-5）释放锁机制
+5、释放锁机制
 
 如果执行lock.unlock()，就可以释放分布式锁，此时的业务逻辑也是非常简单的。
 
@@ -131,7 +131,7 @@ incrby lock
 
 一般我们在生产系统中，可以用Redisson框架提供的这个类库来基于redis进行分布式锁的加锁与释放锁。
 
-6）上述Redis分布式锁的缺点
+6、上述Redis分布式锁的缺点
 
 其实上面那种方案最大的问题，就是如果你对某个redis master实例，写入了lock这种锁key的value，此时会异步复制给对应的master slave实例。
 
