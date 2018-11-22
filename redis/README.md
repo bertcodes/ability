@@ -17,7 +17,7 @@ lock.unlock();
 二、底层原理
 
 1)加锁机制
-
+![image](https://github.com/bertcodes/ability/blob/master/redis/redissonLockFlowChart.png)
 上面那张图，现在某个客户端要加锁。如果该客户端面对的是一个redis cluster集群，他首先会根据hash节点选择一台机器。注意
 
 只选择只选择一台机器。
