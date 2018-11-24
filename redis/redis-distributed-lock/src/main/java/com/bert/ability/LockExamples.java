@@ -22,7 +22,8 @@ public class LockExamples {
 
         RLock lock = redisson.getLock("lock");
         lock.lock();
-//        lock.unlock();
+        lock.lock();
+        lock.unlock();
 
 //        lock.lock(2, TimeUnit.SECONDS);
 //
