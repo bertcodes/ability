@@ -11,5 +11,6 @@
 * 给会员增减积分
 
 * 创建销售出货单通知仓库发货
+![image](https://github.com/bertcodes/ability/blob/master/distributedtransaction/tcc/tcc-1td.png)
 
 
