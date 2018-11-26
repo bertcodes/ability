@@ -58,6 +58,67 @@
 咱们来一起看看下面这张图，结合上面的文字，再来捋一捋这整个过程。
 ![image](https://github.com/bertcodes/ability/blob/master/distributedtransaction/tcc/tcc-4td.png)
 
+##### 3.2、TCC实现阶段二：Confirm
+然后就分成两种情况了，第一种情况是比较理想的，那就是各个服务执行自己的那个Try操作，都执行成功了，bingo！
+
+这个时候，就需要依靠TCC分布式事务框架来推动后续的执行了。
+
+这里简单提一句，如果你要玩儿TCC分布式事务，必须引入一款TCC分布式事务框架，比如国内开源的ByteTCC、himly、tcc-transaction。
+
+否则的话，感知各个阶段的执行情况以及推进执行下一个阶段的这些事情，不太可能自己手写实现，太复杂了。
+
+如果你在各个服务里引入了一个TCC分布式事务的框架，订单服务里内嵌的那个TCC分布式事务框架可以感知到，各个服务的Try操作都成功了。
+
+此时，TCC分布式事务框架会控制进入TCC下一个阶段，第一个C阶段，也就是Confirm阶段。
+
+为了实现这个阶段，你需要在各个服务里再加入一些代码。
+
+比如说，订单服务里，你可以加入一个Confirm的逻辑，就是正式把订单的状态设置为“已支付”了，大概是类似下面这样子：
+
+
+
+库存服务也是类似的，你可以有一个InventoryServiceConfirm类，里面提供一个reduceStock()接口的Confirm逻辑，这里就是将之前冻结库存字段的2个库存扣掉变为0。
+
+这样的话，可销售库存之前就已经变为98了，现在冻结的2个库存也没了，那就正式完成了库存的扣减。
+
+积分服务也是类似的，可以在积分服务里提供一个CreditServiceConfirm类，里面有一个addCredit()接口的Confirm逻辑，就是将预增加字段的10个积分扣掉，然后加入实际的会员积分字段中，从1190变为1120。
+
+仓储服务也是类似，可以在仓储服务中提供一个WmsServiceConfirm类，提供一个saleDelivery()接口的Confirm逻辑，将销售出库单的状态正式修改为“已创建”，可以供仓储管理人员查看和使用，而不是停留在之前的中间状态“UNKNOWN”了。
+
+好了，上面各种服务的Confirm的逻辑都实现好了，一旦订单服务里面的TCC分布式事务框架感知到各个服务的Try阶段都成功了以后，就会执行各个服务的Confirm逻辑。
+
+订单服务内的TCC事务框架会负责跟其他各个服务内的TCC事务框架进行通信，依次调用各个服务的Confirm逻辑。然后，正式完成各个服务的所有业务逻辑的执行。
+
+同样，给大家来一张图，顺着图一起来看看整个过程。
+![image](https://github.com/bertcodes/ability/blob/master/distributedtransaction/tcc/tcc-5td.png)
+
+##### 3.3、TCC实现阶段三：Cancel
+好，这是比较正常的一种情况，那如果是异常的一种情况呢？
+
+举个例子：在Try阶段，比如积分服务吧，他执行出错了，此时会怎么样？
+
+那订单服务内的TCC事务框架是可以感知到的，然后他会决定对整个TCC分布式事务进行回滚。
+
+也就是说，会执行各个服务的第二个C阶段，Cancel阶段。
+
+同样，为了实现这个Cancel阶段，各个服务还得加一些代码。
+
+首先订单服务，他得提供一个OrderServiceCancel的类，在里面有一个pay()接口的Cancel逻辑，就是可以将订单的状态设置为“CANCELED”，也就是这个订单的状态是已取消。
+
+库存服务也是同理，可以提供reduceStock()的Cancel逻辑，就是将冻结库存扣减掉2，加回到可销售库存里去，98 + 2 = 100。
+
+积分服务也需要提供addCredit()接口的Cancel逻辑，将预增加积分字段的10个积分扣减掉。
+
+仓储服务也需要提供一个saleDelivery()接口的Cancel逻辑，将销售出库单的状态修改为“CANCELED”设置为已取消。
+
+然后这个时候，订单服务的TCC分布式事务框架只要感知到了任何一个服务的Try逻辑失败了，就会跟各个服务内的TCC分布式事务框架进行通信，然后调用各个服务的Cancel逻辑。
+
+大家看看下面的图，直观的感受一下。
+![image](https://github.com/bertcodes/ability/blob/master/distributedtransaction/tcc/tcc-6td.png)
+
+
+
+
 
 
 
