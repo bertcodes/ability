@@ -172,7 +172,7 @@ Leader（服务器3）宕机后，Follower（服务器1和2）发现Leader不工
 ###### 选出新Leader
 经过上一步选票更新后，服务器1与服务器2均将选票投给服务器1，因此服务器2成为Follower，而服务器1成为新的Leader并维护与服务器2的心跳。
 
-![image](https://github.com/bertcodes/ability/blob/master/zookeeper/image/image/zk-12th.png)
+![image](https://github.com/bertcodes/ability/blob/master/zookeeper/image/zk-12th.png)
 ###### 旧Leader恢复后发起选举
 旧的Leader恢复后，进入LOOKING状态并发起新一轮领导选举，并将选票投给自己。此时服务器1会将自己的LEADING状态及选票（3, 1, 11）返回给服务器3，而服务器2将自己的FOLLOWING状态及选票（3, 1, 11）返回给服务器3。如下图所示。
 ![image](https://github.com/bertcodes/ability/blob/master/zookeeper/image/zk-13th.png)
