@@ -11,17 +11,17 @@
 * 给会员增减积分
 
 * 创建销售出货单通知仓库发货
-![image](https://github.com/bertcodes/ability/blob/master/distributedtransaction/tcc/tcc-1td.png)
+![image](https://github.com/bertcodes/ability/blob/master/distributedtransaction/tcc/image/tcc-1td.png)
 #### 二、不用分布式事务思考
 上述几个步骤，要么一起成功，要么一起失败，必须是一个整体的事务，扣减库存如果失败了不回滚其他服务会导致事务
 
 一致性问题，比如扣减库存失败了需回滚与取消其他服务：
-![image](https://github.com/bertcodes/ability/blob/master/distributedtransaction/tcc/tcc-2td.png)
+![image](https://github.com/bertcodes/ability/blob/master/distributedtransaction/tcc/image/tcc-2td.png)
 
 #### 三、落地TCC分布式事务
 ##### 3.1、TCC实现阶段一：Try
 首先，订单服务那儿，他的代码大致来说应该是这样子的：
-![image](https://github.com/bertcodes/ability/blob/master/distributedtransaction/tcc/tcc-3td.png)
+![image](https://github.com/bertcodes/ability/blob/master/distributedtransaction/tcc/image/tcc-3td.png)
 
 其实就是订单服务完成本地数据库操作之后，通过Spring Cloud的Feign来调用其他的各个服务罢了。
 
@@ -56,7 +56,7 @@
 这个操作，一般都是锁定某个资源，设置一个预备类的状态，冻结部分数据，等等，大概都是这类操作。
 
 咱们来一起看看下面这张图，结合上面的文字，再来捋一捋这整个过程。
-![image](https://github.com/bertcodes/ability/blob/master/distributedtransaction/tcc/tcc-4td.png)
+![image](https://github.com/bertcodes/ability/blob/master/distributedtransaction/tcc/image/tcc-4td.png)
 
 ##### 3.2、TCC实现阶段二：Confirm
 然后就分成两种情况了，第一种情况是比较理想的，那就是各个服务执行自己的那个Try操作，都执行成功了，bingo！
@@ -90,7 +90,7 @@
 订单服务内的TCC事务框架会负责跟其他各个服务内的TCC事务框架进行通信，依次调用各个服务的Confirm逻辑。然后，正式完成各个服务的所有业务逻辑的执行。
 
 同样，给大家来一张图，顺着图一起来看看整个过程。
-![image](https://github.com/bertcodes/ability/blob/master/distributedtransaction/tcc/tcc-5td.png)
+![image](https://github.com/bertcodes/ability/blob/master/distributedtransaction/tcc/image/tcc-5td.png)
 
 ##### 3.3、TCC实现阶段三：Cancel
 好，这是比较正常的一种情况，那如果是异常的一种情况呢？
@@ -114,7 +114,7 @@
 然后这个时候，订单服务的TCC分布式事务框架只要感知到了任何一个服务的Try逻辑失败了，就会跟各个服务内的TCC分布式事务框架进行通信，然后调用各个服务的Cancel逻辑。
 
 大家看看下面的图，直观的感受一下。
-![image](https://github.com/bertcodes/ability/blob/master/distributedtransaction/tcc/tcc-6td.png)
+![image](https://github.com/bertcodes/ability/blob/master/distributedtransaction/tcc/image/tcc-6td.png)
 
 #### 三、总结与思考
 总结一下，你要玩儿TCC分布式事务的话：
@@ -167,7 +167,7 @@ TCC分布式事务的核心思想，说白了，就是当遇到下面这些情�
 当然了，如果你的代码没有写什么bug，有充足的测试，而且Try阶段都基本尝试了一下，那么其实一般Confirm、Cancel都是可以成功的！
 
 最后，再给大家来一张图，来看看给我们的业务，加上分布式事务之后的整个执行流程：
-![image](https://github.com/bertcodes/ability/blob/master/distributedtransaction/tcc/tcc-7td.png)
+![image](https://github.com/bertcodes/ability/blob/master/distributedtransaction/tcc/image/tcc-7td.png)
 不少大公司里，其实都是自己研发TCC分布式事务框架的，专门在公司内部使用，比如我们就是这样。
 
 不过如果自己公司没有研发TCC分布式事务框架的话，那一般就会选用开源的框架。
