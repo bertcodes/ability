@@ -50,4 +50,4 @@ mysql 中间件研究（Atlas，cobar，TDDL）
 http://www.guokr.com/blog/475765/
 
 
-
+from： mycat-definitive-guide.pdf
