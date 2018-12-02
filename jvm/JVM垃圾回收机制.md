@@ -112,8 +112,11 @@ public class CanReliveObj {
 输出：
 
 CanReliveObj finalize called
+
 obj is available
+
 第二次 gc
+
 obj is null
 
 一般我们认为，对象赋值null后，对象就可以被GC了，在上述实例中，在finalize中，又将obj=this,使对象复活。因为finalize只能调用一次，所以第二次GC时，obj
