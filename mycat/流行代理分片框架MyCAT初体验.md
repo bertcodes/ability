@@ -26,4 +26,6 @@ tar -zxvf Mycat-server-1.6.6.1-release-20181031195535-linux.tar.gz -C ./
     └── version.txt         版本信息
     
     
+    from: 可伸缩服务架构：框架与中间件.pdf
+    
 
