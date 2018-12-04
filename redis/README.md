@@ -17,7 +17,7 @@ lock.unlock();
 二、底层原理
 
 1、 加锁机制
-![image](https://github.com/bertcodes/ability/blob/master/redis/redissonLockFlowChart.png)
+![image](https://github.com/bertcodes/ability/blob/master/redis/image/redissonLockFlowChart.png)
 上面那张图，现在某个客户端要加锁。如果该客户端面对的是一个redis cluster集群，他首先会根据hash节点选择一台机器。注意
 
 只选择只选择一台机器。
@@ -61,7 +61,7 @@ hset myLock
     271ef3b5-e120-406b-8cd2-e0770561f079:1 1
 
 通过这个命令设置一个hash数据结构，这行命令执行后，redis会写入数据如下图：
-![image](https://github.com/bertcodes/ability/blob/master/redis/lock_value.png)
+![image](https://github.com/bertcodes/ability/blob/master/redis/image/lock_value.png)
 
 上述就代表“271ef3b5-e120-406b-8cd2-e0770561f079:1”这个客户端对“lock”这个锁key完成了加锁。
 
@@ -113,7 +113,7 @@ incrby lock
 
 此时lock数据存储为：
 
-![image](https://github.com/bertcodes/ability/blob/master/redis/lock_value_3td.png)
+![image](https://github.com/bertcodes/ability/blob/master/redis/image/lock_value_3td.png)
 
 5、释放锁机制
 
