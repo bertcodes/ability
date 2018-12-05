@@ -107,6 +107,59 @@ Redis集群要保证16384个槽对应的node都正常工作，如果某个node�
 * 3.客户端和集群节点之间通信和通常一样，通过文本协议进行。
 * 4.集群节点不会代理查询。
 
+###### 3. slot 数据迁移
+
+这里6382为新加入的节点，一开始是没有槽的，所以进行slot的迁移。    
+![image](https://github.com/bertcodes/ability/blob/master/redis/image/redis_cluster_5th.png)
+迁移数据的流程图：  
+![image](https://github.com/bertcodes/ability/blob/master/redis/image/redis_cluster_6th.png)
+槽迁移的过程中有一个不稳定状态，这个不稳定状态会有一些规则，这些规则定义客户端的行为，从而使得Redis Cluster不必宕机的情况下可以执行槽的迁移。  
+* MIGRATING状态
+预备迁移槽的时候槽的状态首先会变为MIGRATING状态，这种状态的槽会实际产生什么影响呢?当客户端请求的某个Key所属的槽处于MIGRATING状态的时候，影响有下面几条：
+
+  1.如果Key存在则成功处理  
+  2.如果Key不存在，则返回客户端ASK，仅当这次请求会转向另一个节点，并不会刷新客户端中node的映射关系，也就是说下次该客户端请求该Key的时候，还会选择MasterA节点如果Key包含多个命令，如果都存在则成功处理，如果都不存在，则返回客户端ASK，如果一部分存在，则返回客户端TRYAGAIN，通知客户端稍后重试，这样当所有的Key都迁移完毕的时候客户端重试请求的时候回得到ASK，然后经过一次重定向就可以获取这批键  
+  * IMPORTING状态  
+  槽从MasterA节点迁移到MasterB节点的时候，槽的状态会首先变为IMPORTING。IMPORTING状态的槽对客户端的行为有下面一些影响：
+
+正常命令会被MOVED重定向，如果是ASKING命令则命令会被执行，从而Key没有在老的节点已经被迁移到新的节点的情况可以被顺利处理；如果Key不存在则新建；没有ASKING的请求和正常请求一样被MOVED，这保证客户端node映射关系出错的情况下不会发生写错；
+
+### 4. 客户端路由
+
+* moved重定向
+![image](https://github.com/bertcodes/ability/blob/master/redis/image/redis_cluster_7th.png)  
+其中，槽直接命中的话，就直接返回槽编号：
+![image](https://github.com/bertcodes/ability/blob/master/redis/image/redis_cluster_8th.png)  
+槽不命中，返回带提示信息的异常，客户端需要重新发送一条命令：   
+![image](https://github.com/bertcodes/ability/blob/master/redis/image/redis_cluster_9th.png)  
+###### ask重定向
+
+在扩容缩容的时候，由于需要遍历这个节点上的所有的key然后进行迁移，是比较慢的，对客户端是一个挑战。因为假设一个场景，客户端访问某个key，节点告诉客户端这个key在源节点，当我们再去源节点访问的时候，却发现key已经迁移到目标节点.
+
+###### moved重定向和ask重定向对比
+
+* 1.两者都是客户端单重定向
+* 2.moved：槽已经确定转移
+* 3.ask:槽还在迁移中
+问题：如果节点众多，那么让客户端随机访问节点，那么直接命中的概率只有百分之一，还有就是发生ask异常时（即节点正在迁移时）客户端如何还能高效运转？
+总结一句话就是redis cluster的客户端的实现会更复杂。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
