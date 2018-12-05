@@ -110,9 +110,9 @@ Redis集群要保证16384个槽对应的node都正常工作，如果某个node�
 ###### 3. slot 数据迁移
 
 这里6382为新加入的节点，一开始是没有槽的，所以进行slot的迁移。    
-![image](https://github.com/bertcodes/ability/blob/master/redis/image/redis_cluster_5th.png)
+![image](https://github.com/bertcodes/ability/blob/master/redis/image/redis_cluster_5th.png)  
 迁移数据的流程图：  
-![image](https://github.com/bertcodes/ability/blob/master/redis/image/redis_cluster_6th.png)
+![image](https://github.com/bertcodes/ability/blob/master/redis/image/redis_cluster_6th.png)  
 槽迁移的过程中有一个不稳定状态，这个不稳定状态会有一些规则，这些规则定义客户端的行为，从而使得Redis Cluster不必宕机的情况下可以执行槽的迁移。    
 
 * MIGRATING状态
