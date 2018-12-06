@@ -147,6 +147,21 @@ B+Tree为了保持平衡，对于新插入的值需要做大量的拆分页操�
 ![image](https://github.com/bertcodes/ability/blob/master/mysql/image/mysql_theory-11th.png)  
 通过旋转操作可以最大限度的减少页分裂，从而减少索引维护过程中的磁盘的I/O操作，也提高索引维护效率。需要注意的是，删除节点跟插入节点类似，仍然需要旋转和拆分操作，这里就不再说明。
 
+###### 高性能策略
+
+通过上文，相信你对B+Tree的数据结构已经有了大致的了解，但MySQL中索引是如何组织数据的存储呢？以一个简单的示例来说明，假如有如下数据表：
+
+CREATE TABLE People(
+    last_name varchar(50) not null,
+    first_name varchar(50) not null,
+    dob date not null,
+    gender enum(`m`,`f`) not null,
+    key(last_name,first_name,dob)
+);
+
+对于表中每一行数据，索引中包含了last_name、first_name、dob列的值，下图展示了索引是如何组织数据存储的。  
+![image](https://github.com/bertcodes/ability/blob/master/mysql/image/mysql_theory-12th.png)  
+
 
 
 
