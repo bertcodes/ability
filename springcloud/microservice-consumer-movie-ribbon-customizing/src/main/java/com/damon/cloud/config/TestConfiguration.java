@@ -5,7 +5,7 @@ import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Copyright (C): 恒大集团©版权所有 Evergrande Group
+ *
  * FileName: TestConfiguration
  *
  * @author caobo

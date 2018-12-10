@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 /**
- * Copyright (C): 恒大集团©版权所有 Evergrande Group
+ *
  * FileName: MovieController
  *
  * @author caobo

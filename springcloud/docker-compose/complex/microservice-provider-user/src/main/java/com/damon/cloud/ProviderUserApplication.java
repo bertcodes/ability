@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
- * Copyright (C): 恒大集团©版权所有 Evergrande Group
+ *
  * FileName: ProviderUserApplication
  *
  * @author caobo

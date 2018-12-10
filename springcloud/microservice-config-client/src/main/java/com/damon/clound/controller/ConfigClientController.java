@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Copyright (C): 恒大集团©版权所有 Evergrande Group
+ *
  * FileName: ConfigClientController
  *
  * @author caobo

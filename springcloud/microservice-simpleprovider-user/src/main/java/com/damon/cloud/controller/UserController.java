@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Copyright (C): 恒大集团©版权所有 Evergrande Group
+ *
  * FileName: UserController
  *
  * @author caobo

@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import zipkin.server.EnableZipkinServer;
 
 /**
- * Copyright (C): 恒大集团©版权所有 Evergrande Group
+ * 
  * FileName: ZipkinServerApplication
  *
  * @author caobo
