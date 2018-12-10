@@ -89,7 +89,36 @@ Hystrix、Zuul这几个组件。
 * 首先，如果你对某个接口定义了@FeignClient注解，Feign就会针对这个接口创建一个动态代理  
 * 接着你要是调用那个接口，本质就是会调用Feign创建的动态代理，这是核心中的核心  
 * Feign的动态代理会根据你在接口上的@RequestMapping等注解，来动态构造出你要请求的服务的地址  
-* 最后针对这个地址，发起请求、解析相应  
+* 最后针对这个地址，发起请求、解析相应    
+![image](https://github.com/bertcodes/ability/blob/master/springcloud/image/springcloud-theory-4th.png)  
+
+### 四、Spring Cloud核心组件：Ribbon  
+说完了Feign，还没完。现在新的问题又来了，如果人家库存服务部署在了5台机器上，如下所示：  
+192.168.169:9000  
+192.168.170:9000  
+192.168.171:9000  
+192.168.172:9000  
+192.168.173:9000  
+
+这下麻烦了！人家Feign怎么知道该请求哪台机器呢？  
+* 这时Spring Cloud Ribbon就派上用场了。Ribbon就是专门解决 这个问题的。它的作用是负载均衡，会帮你在每次请求时选择一台机器，均匀的把请求分发到各个机器上
+
+* Ribbon的负载均衡默认使用的最经典的Round Robin轮询算法。这是啥？简单来讲，就是如果订单服务对库存服务发起10次请求，那就先让你请求第1台机器、然后
+是第2台机器...接着循环
+
+此外，Ribbon是和Feign以及Eureka紧密协作，完成工作的，具体如下：  
+* 首先Ribbon会从Eureka Client里获取到对应的服务注册表，也就是知道了所有的服务器部署在了哪些机器上，在监听安歇接口。  
+* 然后Ribbon就可以使用默认的Round Robin算法，从中选择一台机器。  
+* Fegin就会针对这台机器，构造并发起请求。  
+
+![image](https://github.com/bertcodes/ability/blob/master/springcloud/image/springcloud-theory-4th.png)  
+
+### 五、
+
+
+
+
+
 
 
 
