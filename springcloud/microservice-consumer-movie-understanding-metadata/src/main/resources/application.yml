@@ -1,0 +1,22 @@
+server:
+  port: 8010
+## INFO
+info:
+  app:
+    name: @project.artifactId@
+    encoding: @project.build.sourceEncoding@
+    java:
+      source: @java.version@
+      target: @java.version@
+management:
+  security:
+    enabled: false
+spring:
+  application:
+    name: microservice-consumer-movie-understanding-metadata
+eureka:
+  client:
+    service-url:
+      defaultZone: http://user:password123@localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true

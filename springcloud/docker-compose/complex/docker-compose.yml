@@ -1,0 +1,31 @@
+version: "3"
+services:
+  peer1:
+    image: daemon/microservice-discovery-eureka-ha:1.0-SNAPSHOT
+    ports:
+      - "8761:8761"
+    environment:
+      - spring.profiles.active=peer1
+  peer2:
+    image: daemon/microservice-discovery-eureka-ha:1.0-SNAPSHOT
+    hostname: peer2
+    ports:
+      - "8762:8762"
+    environment:
+      - spring.profiles.active=peer2
+  microservice-provider-user:
+    image: daemon/microservice-provider-user:1.0-SNAPSHOT
+#    ports:
+#      - "8000:8000"
+  microservice-consumer-movie-ribbon-hystrix:
+    image: daemon/microservice-consumer-movie-ribbon-hystrix:1.0-SNAPSHOT
+#    ports:
+#      - "8010:8010"
+  microservice-gateway-zuul:
+    image: daemon/microservice-gateway-zuul:1.0-SNAPSHOT
+#    ports:
+#      - "8040:8040"
+  microservice-hystrix-turbine:
+    image: daemon/microservice-hystrix-turbine:1.0-SNAPSHOT
+#    ports:
+#      - "8031:8031"

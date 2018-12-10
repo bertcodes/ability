@@ -1,0 +1,6 @@
+version: '3'
+services:
+  discovery:
+    image: damon/microservice-discovery-eureka:1.0-SNAPSHOT
+    ports:
+      - "8761:8761"
