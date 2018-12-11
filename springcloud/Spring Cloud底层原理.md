@@ -151,6 +151,9 @@ Hystrix、Zuul这几个组件。
 为帮助大家更直观的理解，接下来用一张图，梳理一下Hystrix隔离、熔断和降级的全流程：
 
 
+![image](https://github.com/bertcodes/ability/blob/master/springcloud/image/springcloud-theory-7th.png)    
+
+
 
 
 
