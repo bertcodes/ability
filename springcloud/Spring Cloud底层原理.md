@@ -150,8 +150,38 @@ Hystrix、Zuul这几个组件。
 
 为帮助大家更直观的理解，接下来用一张图，梳理一下Hystrix隔离、熔断和降级的全流程：
 
+### 六、Spring Cloud核心组件：Zuul  
+说完了Hystrix，接着给大家说最后一个组件：Zuul，也就是微服务网关。这个组件是负责网络路由的。不懂网络路由？行，那我给你说说，如果没有Zuul的日常
+工作会怎样？  
+
+假如你后台部署了几百个服务，现在有个前端兄弟，人家请求是直接从浏览器那儿发过来的。打个比方：人家要请求一下库存服务，你难道还想让人家记着这个服务
+的名字叫做inventory-service?部署在5台机器上？就算人家肯记住这一个，你后台可能有几百个服务的名称和地址呢？难不成人家请求一个，就得记住一个？
+你要这样玩儿，那真是友谊的小船，说翻就翻！  
+
+上面这种情况，压根儿是不现实的。所以一般微服务架构中都必然会设计一个网关在里面，像android、ios、pc前端、微信小程序、H5等等，不用去关心后端有
+几百个服务，就知道有一个网关，所有请求都往网管走，网关会根据请求中的一些特征，将请求转发给后端的各个服务。  
+
+而且有了网关之后，还有很好处，比如可以做统一的降级、限流、认证授权、安全，等等。   
 
 ![image](https://github.com/bertcodes/ability/blob/master/springcloud/image/springcloud-theory-7th.png)    
+
+### 七、总结：  
+最后再来总结一下，上述几个Spring Cloud核心组件，在微服务架构中，分别扮演的角色：  
+* Eureka: 各个服务启动时，Eureka Client都会将服务注册到Eureka Server，并且Eureka Client还可以反过来从Eureka Server拉取注册表，从而知道
+其他服务在哪  
+* Ribbon： 服务间发起请求的时候，基于Ribbon做负载均衡，从一个服务的多台机器中选择一台  
+* Fegin: 基于Feign的动态代理机制，根据注解和选择的机器，拼接请求URL地址，发起请求  
+* Hystrix：发起请求是通过Hystrix的线程池来走的，不同的服务走不同的线程池，实现了不同服务的隔离，避免了服务雪崩的问题  
+* Zuul: 如果前端、移动端要调用后端系统，统一从Zuul网关进入，由Zuul网关转发请求给对应的服务  
+以上就是我们通过一个电商业务场景，阐述了Spring Cloud微服务架构几个核心组件的底层原理。
+
+文字总结还不够直观？没问题！我们将Spring Cloud的5个核心组件通过一张图串联起来，再来直观的感受一下其底层的架构原理：
+
+![image](https://github.com/bertcodes/ability/blob/master/springcloud/image/springcloud-theory-8th.png)    
+
+
+
+
 
 
 
