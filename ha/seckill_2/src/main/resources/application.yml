@@ -1,0 +1,18 @@
+spring:
+  thymeleaf:
+    cache: false
+    content-type: text/html
+    enabled: true
+    encoding: UTF-8
+    mode: HTML5
+    prefix: classpath:/templates/
+    suffix: .html
+redis:
+  host: 127.0.0.1
+  port: 6379
+  timeout: 3
+  password: 123
+  poolMaxTotal: 10
+  poolMaxIdle: 10
+  poolMaxWait: 3
+
