@@ -1,7 +1,7 @@
 package com.ability.seckill.model;
 
 /**
- * Copyright (C): Bert©版权所有
+ * Copyright (C): :
  * FileName: User
  *
  * @author caobo

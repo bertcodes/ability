@@ -3,7 +3,7 @@ package com.ability.seckill.redis.key;
 import com.ability.seckill.redis.BasePrefix;
 
 /**
- * Copyright (C): Bert©版权所有
+ * Copyright (C): :
  * FileName: UserKey
  *
  * @author caobo

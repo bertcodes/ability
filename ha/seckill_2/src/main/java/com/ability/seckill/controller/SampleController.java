@@ -5,6 +5,7 @@ import com.ability.seckill.redis.RedisService;
 import com.ability.seckill.redis.key.UserKey;
 import com.ability.seckill.result.CodeMsg;
 import com.ability.seckill.result.Result;
+import com.ability.seckill.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * Copyright (C): Bert©版权所有
+ * Copyright (C): :
  * FileName: DemoController
  *
  * @author caobo
@@ -26,6 +27,8 @@ public class SampleController {
 
     @Autowired
     RedisService redisService;
+    @Autowired
+    UserService userService;
 
     @RequestMapping("/")
     @ResponseBody
@@ -68,7 +71,18 @@ public class SampleController {
         return Result.success(user);
 
     }
-
+    @RequestMapping("/db/doGet")
+    @ResponseBody
+    public Result<User> doGet(){
+        User user = userService.getById(1);
+        return Result.success(user);
+    }
+    @RequestMapping("/db/doTx")
+    @ResponseBody
+    public Result<Boolean> doTx(){
+        userService.tx();
+        return Result.success(true);
+    }
 
 
 }

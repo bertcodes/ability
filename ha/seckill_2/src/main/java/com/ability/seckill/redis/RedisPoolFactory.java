@@ -7,7 +7,7 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 /**
- * Copyright (C): Bert©版权所有
+ * Copyright (C): :
  * FileName: RedisPoolFactory
  *
  * @author caobo

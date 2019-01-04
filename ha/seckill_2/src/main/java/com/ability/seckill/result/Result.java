@@ -1,7 +1,7 @@
 package com.ability.seckill.result;
 
 /**
- * Copyright (C): Bert©版权所有
+ * Copyright (C): :
  * FileName: Result
  *
  * @author caobo

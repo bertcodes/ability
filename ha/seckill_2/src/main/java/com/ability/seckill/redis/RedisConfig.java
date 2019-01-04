@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
- * Copyright (C): Bert©版权所有
+ * Copyright (C): :
  * FileName: RedisConfig
  *
  * @author caobo

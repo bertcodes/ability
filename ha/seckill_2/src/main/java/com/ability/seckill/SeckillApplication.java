@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Copyright (C): Bert©版权所有
+ * Copyright (C): :
  * FileName: SeckillApplication
  *
  * @author caobo

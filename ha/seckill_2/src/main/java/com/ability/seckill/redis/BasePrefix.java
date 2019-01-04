@@ -1,7 +1,7 @@
 package com.ability.seckill.redis;
 
 /**
- * Copyright (C): Bert©版权所有
+ * Copyright (C): :
  * FileName: BaseKey
  *
  * @author caobo

@@ -8,7 +8,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 /**
- * Copyright (C): Bert©版权所有
+ * Copyright (C): :
  * FileName: RedisService
  *
  * @author caobo
